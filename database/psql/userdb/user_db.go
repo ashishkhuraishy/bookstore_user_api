@@ -33,14 +33,6 @@ const (
 var (
 	// Client db that can be accesed by domain layer
 	Client *sql.DB
-
-	// // Assigning the env variables
-	// userName =
-	// password = os.Getenv(psqlPassword)
-	// port     = os.Getenv(psqlPort)
-	// dbName   = os.Getenv(psqlDBName)
-
-	// Generating the connection string
 )
 
 func init() {
@@ -50,6 +42,7 @@ func init() {
 	godotenv.Load(".env")
 	fmt.Println(os.Getenv(psqlUserName))
 
+	// Generating the connection string
 	connectionStr := fmt.Sprintf("user=%s password=%s dbname=%s port=%s sslmode=disable", os.Getenv(psqlUserName), os.Getenv(psqlPassword), os.Getenv(psqlDBName), os.Getenv(psqlPort))
 	fmt.Println(connectionStr)
 	Client, err = sql.Open("postgres", connectionStr)

@@ -26,3 +26,16 @@ func GetUser(userID int64) (*domain.User, *errors.RestError) {
 	}
 	return &user, nil
 }
+
+// UpdateUser : updates a user with the given id / returns a restError
+func UpdateUser(user domain.User, isPartial bool) (*domain.User, *errors.RestError) {
+	if err := user.Validate(); err != nil {
+		return nil, err
+	}
+
+	if err := user.Update(isPartial); err != nil {
+		return nil, err
+	}
+
+	return &user, nil
+}
