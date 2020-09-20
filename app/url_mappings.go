@@ -19,7 +19,7 @@ func urlMappings() {
 	router.DELETE("/user/:user_id", user.DeleteUser)
 
 	// Search Apis
-	// Required Query parameter ?status
+	// Required Query parameter `status`
 	router.GET("internal/users/search/", user.Search)
 
 }

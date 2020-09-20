@@ -17,6 +17,7 @@ func CreateUser(user domain.User) (*domain.User, *errors.RestError) {
 
 	user.Status = domain.StatusActive
 	user.DateCreated = datetime.GetCurrentFormattedTime()
+	user.DateUpdated = user.DateCreated
 	user.Password = cryptoutils.HashPassword(user.Password)
 	fmt.Println(user.Password)
 	if err := user.Save(); err != nil {

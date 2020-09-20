@@ -24,7 +24,7 @@ const (
 			last_name VARCHAR(50) NOT NULL,
 			email VARCHAR(50) UNIQUE NOT NULL,
 			status VARCHAR(10) NOT NULL,
-			password VARCHAR(50) NOT NULL,
+			password VARCHAR(100) NOT NULL,
 			date_created TIMESTAMP NOT NULL,
 			date_updated TIMESTAMP
 		);`
