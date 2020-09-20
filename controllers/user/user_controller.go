@@ -46,7 +46,7 @@ func GetUser(c *gin.Context) {
 		return
 	}
 
-	c.JSON(http.StatusOK, result)
+	c.JSON(http.StatusOK, result.Marshaller(checkPublic(c)))
 }
 
 // UpdateUser : updates a user with a specific userId
@@ -73,5 +73,49 @@ func UpdateUser(c *gin.Context) {
 		c.JSON(restErr.Status, restErr)
 		return
 	}
-	c.JSON(http.StatusOK, result)
+	c.JSON(http.StatusOK, result.Marshaller(checkPublic(c)))
+}
+
+// DeleteUser : Endpoint to Delete a user with an id
+func DeleteUser(c *gin.Context) {
+	userParam := c.Param("user_id")
+	userID, err := strconv.ParseInt(userParam, 10, 64)
+	if err != nil {
+		restErr := errors.NewBadRequest(fmt.Sprintf("%s is an invalid userID", userParam))
+		c.JSON(restErr.Status, restErr)
+		return
+	}
+
+	restErr := service.DeleteUser(userID)
+	if restErr != nil {
+		c.JSON(restErr.Status, restErr)
+		return
+	}
+
+	c.JSON(http.StatusOK, map[string]string{"status": "deleted"})
+}
+
+// Search will search based on the given query parameter
+func Search(c *gin.Context) {
+	statusQuery := c.Query("status")
+
+	if statusQuery == "" {
+		restErr := errors.NewBadRequest("query parameter `status` should not be empty")
+		c.JSON(restErr.Status, restErr)
+		return
+	}
+
+	users, err := service.Search(statusQuery)
+	if err != nil {
+		c.JSON(err.Status, err)
+		return
+	}
+
+	c.JSON(http.StatusOK, users.Marshaller(checkPublic(c)))
+
+}
+
+// Helper function to check if the request contains header for public
+func checkPublic(c *gin.Context) bool {
+	return c.Request.Header.Get("X-Public") == "true"
 }

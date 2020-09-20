@@ -18,6 +18,9 @@ type User struct {
 	Password    string `json:"password"`
 }
 
+// Users is a list of User
+type Users []User
+
 // Validate : Used to validate a given user
 func (u *User) Validate() *errors.RestError {
 	u.Email = strings.TrimSpace(strings.ToLower(u.Email))

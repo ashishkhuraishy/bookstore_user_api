@@ -40,11 +40,9 @@ func init() {
 
 	// Loading the env variables
 	godotenv.Load(".env")
-	fmt.Println(os.Getenv(psqlUserName))
 
 	// Generating the connection string
 	connectionStr := fmt.Sprintf("user=%s password=%s dbname=%s port=%s sslmode=disable", os.Getenv(psqlUserName), os.Getenv(psqlPassword), os.Getenv(psqlDBName), os.Getenv(psqlPort))
-	fmt.Println(connectionStr)
 	Client, err = sql.Open("postgres", connectionStr)
 	if err != nil {
 		panic(err)
